@@ -9,6 +9,13 @@ priority_order = {
     "Low": 3
 }
 
+def sort_homework(homework):
+    return (
+        priority_order.get(homework.get("priority", "Low"), 3),
+        datetime.strptime(homework.get("due_date", "01-01-1900"), "%m-%d-%Y")
+    )
+
+
 def add_homework():
     homework = input("Enter homework: ")
     description = input("Enter description: ")
@@ -47,9 +54,9 @@ def view_homework():
     print("Your Homework:")
 
     sorted_homework = sorted(
-        homework_list,
-        key=lambda x: priority_order.get(x.get("priority", "Low"), 3)
-    )
+    homework_list,
+    key=sort_homework
+)
 
     for homework in sorted_homework:
         print("| Name:", homework["name"])
@@ -101,7 +108,7 @@ def delete_homework():
     else:
         print("Invalid homework number.")
 
-        
+
 def complete_homework():
     if len(homework_list) == 0:
         print("No homework to complete!")
