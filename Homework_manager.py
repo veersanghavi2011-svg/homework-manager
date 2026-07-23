@@ -1,16 +1,36 @@
 import json
+from datetime import datetime
 
 homework_list = []
+
+priority_order = {
+    "High": 1,
+    "Medium": 2,
+    "Low": 3
+}
 
 def add_homework():
     homework = input("Enter homework: ")
     description = input("Enter description: ")
-    due_date = input("Enter due date (DD-MM-YYYY): ")
+    while True:
+        try:
+            due_date = input("Enter due date (MM-DD-YYYY): ")
+            datetime.strptime(due_date, "%m-%d-%Y")
+            break
+        except ValueError:
+            print("Invalid date format. Please enter the date in MM-DD-YYYY format.")
+
+    priority = input("Enter priority (High/Medium/Low): ")
+
+    while priority not in ["High", "Medium", "Low"]:
+        print("Invalid priority. Please enter High, Medium, or Low.")
+        priority = input("Enter priority (High/Medium/Low): ")
 
     homework_list.append({
         "name": homework,
         "description": description,
         "due_date": due_date,
+        "priority": priority,
         "completed": False
     })
 
@@ -21,16 +41,41 @@ def add_homework():
 def view_homework():
     if len(homework_list) == 0:
         print("No homework found!")
-    else:
-        print("Your Homework:")
+        return
 
-        for homework in homework_list:
-            print("|Name:", homework["name"])
+    print("Your Homework:")
+
+    sorted_homework = sorted(
+        homework_list,
+        key=lambda x: priority_order.get(x.get("priority", "Low"), 3)
+    )
+
+    for homework in sorted_homework:
+        print("| Name:", homework["name"])
+        print("| Description:", homework["description"])
+        print("| Due Date:", homework["due_date"])
+        print("| Priority:", homework.get("priority", "Not Set"))
+        print("| Status:", "Completed" if homework["completed"] else "Not Completed")
+        print()
+
+
+def search_homework():
+    keyword = input("Enter keyword to search: ").lower()
+
+    found = False
+
+    for homework in homework_list:
+        if keyword in homework["name"].lower() or keyword in homework["description"].lower():
+            print()
+            print("| Name:", homework["name"])
             print("| Description:", homework["description"])
             print("| Due Date:", homework["due_date"])
+            print("| Priority:", homework.get("priority", "Not Set"))
             print("| Status:", "Completed" if homework["completed"] else "Not Completed")
-            print()
+            found = True
 
+    if not found:
+        print("No matching homework found.")
 
 def delete_homework():
     if len(homework_list) == 0:
@@ -46,7 +91,7 @@ def delete_homework():
             choice = int(input("Which homework do you want to delete? "))
         except ValueError:
             print("Please enter a number.")
-        return
+            return
 
         if 1 <= choice <= len(homework_list):
             homework_list.pop(choice - 1)
@@ -71,7 +116,7 @@ def complete_homework():
             choice = int(input("Which homework do you want to mark as completed? "))
         except ValueError:
             print("Please enter a number.")
-        return
+            return
 
         if 1 <= choice <= len(homework_list):
             homework_list[choice - 1]["completed"] = True
@@ -106,7 +151,8 @@ while True:
     print("2. View Homework")
     print("3. Delete Homework")
     print("4. Mark Homework as Completed")
-    print("5. Exit")
+    print("5. Search Homework")
+    print("6. Exit")
 
     choice = input("Choose an option: ")
 
@@ -123,6 +169,9 @@ while True:
         complete_homework()
 
     elif choice == "5":
+        search_homework()
+
+    elif choice == "6":
         print("Exiting...")
         break
 
