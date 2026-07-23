@@ -12,6 +12,7 @@ priority_order = {
 def add_homework():
     homework = input("Enter homework: ")
     description = input("Enter description: ")
+
     while True:
         try:
             due_date = input("Enter due date (MM-DD-YYYY): ")
@@ -20,11 +21,11 @@ def add_homework():
         except ValueError:
             print("Invalid date format. Please enter the date in MM-DD-YYYY format.")
 
-    priority = input("Enter priority (High/Medium/Low): ")
+    priority = input("Enter priority (High/Medium/Low): ").capitalize()
 
     while priority not in ["High", "Medium", "Low"]:
         print("Invalid priority. Please enter High, Medium, or Low.")
-        priority = input("Enter priority (High/Medium/Low): ")
+        priority = input("Enter priority (High/Medium/Low): ").capitalize()
 
     homework_list.append({
         "name": homework,
@@ -80,51 +81,50 @@ def search_homework():
 def delete_homework():
     if len(homework_list) == 0:
         print("No homework to delete!")
+        return
 
+    print("Your Homework:")
+
+    for index, homework in enumerate(homework_list):
+        print(index + 1, "Name:", homework["name"])
+
+    try:
+        choice = int(input("Which homework do you want to delete? "))
+    except ValueError:
+        print("Please enter a number.")
+        return
+
+    if 1 <= choice <= len(homework_list):
+        homework_list.pop(choice - 1)
+        save_homework()
+        print("Homework deleted!")
     else:
-        print("Your Homework:")
+        print("Invalid homework number.")
 
-        for index, homework in enumerate(homework_list):
-            print(index + 1, "Name:", homework["name"])
-
-        try:
-            choice = int(input("Which homework do you want to delete? "))
-        except ValueError:
-            print("Please enter a number.")
-            return
-
-        if 1 <= choice <= len(homework_list):
-            homework_list.pop(choice - 1)
-            save_homework()
-            print("Homework deleted!")
-
-        else:
-            print("Invalid homework number.")
-
-
+        
 def complete_homework():
     if len(homework_list) == 0:
         print("No homework to complete!")
+        return
 
+    print("Your Homework:")
+
+    for index, homework in enumerate(homework_list):
+        print(index + 1, "Name:", homework["name"])
+
+    try:
+        choice = int(input("Which homework do you want to mark as completed? "))
+    except ValueError:
+        print("Please enter a number.")
+        return
+
+    if 1 <= choice <= len(homework_list):
+        homework_list[choice - 1]["completed"] = True
+        save_homework()
+        print("Homework marked as completed!")
     else:
-        print("Your Homework:")
+        print("Invalid homework number.")
 
-        for index, homework in enumerate(homework_list):
-            print(index + 1, "Name:", homework["name"])
-
-        try:
-            choice = int(input("Which homework do you want to mark as completed? "))
-        except ValueError:
-            print("Please enter a number.")
-            return
-
-        if 1 <= choice <= len(homework_list):
-            homework_list[choice - 1]["completed"] = True
-            save_homework()
-            print("Homework marked as completed!")
-
-        else:
-            print("Invalid homework number.")
 
 
 def save_homework():
