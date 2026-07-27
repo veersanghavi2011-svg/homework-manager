@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
     <title>Homework Manager</title>
-
-
-   
-    </style>
 </head>
-
-<body>
 
 <body>
 
@@ -19,51 +16,120 @@
     <h2>📚 Homework Manager</h2>
 </header>
 
+
 <div class="container">
 
     <div class="card">
 
         <h1>Welcome, Veer!</h1>
 
-        <p>You currently have {{ homework_count }} homework assignments.</p>
-        {% for task in homework %}
+        <p>Your homework dashboard</p>
 
-<div class="card">
 
-    <h2>{{ task.name }}</h2>
+        <div class="stats">
 
-    <p>{{ task.description }}</p>
+            <div class="stat-card">
+                <h3>📚 Total</h3>
+                <p>{{ homework_count }}</p>
+            </div>
 
-    <p>Due: {{ task.due_date }}</p>
+            <div class="stat-card">
+                <h3>✅ Completed</h3>
+                <p>{{ completed_count }}</p>
+            </div>
 
-    <p>Priority: {{ task.priority }}</p>
+            <div class="stat-card">
+                <h3>⏳ Remaining</h3>
+                <p>{{ incomplete_count }}</p>
+            </div>
 
-    <p>
-        Status:
-        {% if task.completed %}
-            Completed ✅
+            <div class="stat-card">
+                <h3>⭐ High Priority</h3>
+                <p>{{ high_priority_count }}</p>
+            </div>
+
+        </div>
+
+
+        <br>
+
+        <h2>Recent Homework</h2>
+
+
+        {% if recent_homework %}
+
+            <div class="recent-list">
+
+                {% for task in recent_homework %}
+
+                    <div class="recent-card">
+
+                        <h3>
+                            📚 {{ task.name }}
+                        </h3>
+
+                        <p>
+                            📅 Due: {{ task.due_date }}
+                        </p>
+
+                        <p>
+                            ⭐ Priority: {{ task.priority }}
+                        </p>
+
+
+                        {% if task.completed %}
+
+                            <p class="status-complete">
+                                ✅ Completed
+                            </p>
+
+                        {% else %}
+
+                            <p class="status-incomplete">
+                                ⏳ Not Completed
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
         {% else %}
-            Not Completed ❌
+
+            <p>No homework added yet.</p>
+
         {% endif %}
-    </p>
 
-</div>
 
-{% endfor %}
+        <br>
 
-        <p>
-            Organize assignments, keep track of due dates,
-            and never miss homework again.
-        </p>
 
         <div class="buttons">
-            <button class="primary">Add Homework</button>
-            <button class="secondary">View Homework</button>
+
+            <a href="{{ url_for('add_page') }}" class="primary">
+                Add Homework
+            </a>
+
+            <a href="{{ url_for('homework_page') }}" class="secondary">
+                View Homework
+            </a>
+
+            <a href="{{ url_for('search_page') }}" class="secondary">
+                Search Homework
+            </a>
+
         </div>
+
 
     </div>
 
 </div>
 
+
 </body>
+
 </html>

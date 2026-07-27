@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <title>Search Homework</title>
+</head>
+
+
+<body>
+
+<header>
+    <h2>🔎 Search Homework</h2>
+</header>
+
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>Find Homework</h1>
+
+        <p>
+            Search by homework name or description.
+        </p>
+
+
+        <form method="GET">
+
+            <input
+                type="text"
+                name="q"
+                placeholder="Search homework..."
+                value="{{ keyword }}"
+            >
+
+            <button type="submit" class="primary">
+                Search
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <br>
+
+
+    {% if homework %}
+
+        <div class="homework-grid">
+
+            {% for task in homework %}
+
+                <div class="homework-card">
+
+                    <h2>
+                        📚 {{ task.name }}
+                    </h2>
+
+
+                    <p>
+                        {{ task.description }}
+                    </p>
+
+
+                    <p>
+                        📅 Due: {{ task.due_date }}
+                    </p>
+
+
+                    <p class="priority">
+                        ⭐ Priority: {{ task.priority }}
+                    </p>
+
+
+                    {% if task.completed %}
+
+                        <p class="status-complete">
+                            ✅ Completed
+                        </p>
+
+                    {% else %}
+
+                        <p class="status-incomplete">
+                            ⏳ Not Completed
+                        </p>
+
+                    {% endif %}
+
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+    {% elif keyword %}
+
+        <div class="card">
+
+            <h2>
+                No results found
+            </h2>
+
+            <p>
+                Try searching with a different keyword.
+            </p>
+
+        </div>
+
+
+    {% endif %}
+
+
+    <br>
+
+
+    <a href="{{ url_for('home') }}" class="secondary">
+        ← Back to Dashboard
+    </a>
+
+
+</div>
+
+
+</body>
+
+</html>

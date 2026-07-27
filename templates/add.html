@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <title>Add Homework</title>
+</head>
+
+
+<body>
+
+<header>
+    <h2>➕ Add Homework</h2>
+</header>
+
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>Add New Assignment</h1>
+
+        <p>
+            Enter your homework details below.
+        </p>
+
+
+        <form method="POST">
+
+            <label>
+                Homework Name
+            </label>
+
+            <input 
+                type="text"
+                name="name"
+                placeholder="Example: Math Worksheet"
+                required
+            >
+
+
+            <label>
+                Description
+            </label>
+
+            <textarea
+                name="description"
+                placeholder="Add details about the assignment"
+                rows="4"
+                required
+            ></textarea>
+
+
+            <label>
+                Due Date
+            </label>
+
+            <input
+                type="date"
+                name="due_date"
+                required
+            >
+
+
+            <label>
+                Priority
+            </label>
+
+            <select name="priority" required>
+
+                <option value="High">
+                    High
+                </option>
+
+                <option value="Medium">
+                    Medium
+                </option>
+
+                <option value="Low">
+                    Low
+                </option>
+
+            </select>
+
+
+            <br>
+
+            <div class="buttons">
+
+                <button type="submit" class="primary">
+                    Add Homework
+                </button>
+
+                <a href="{{ url_for('home') }}" class="secondary">
+                    Cancel
+                </a>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+</div>
+
+
+</body>
+
+</html>
