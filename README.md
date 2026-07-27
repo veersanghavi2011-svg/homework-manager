@@ -37,3 +37,14 @@ http://127.0.0.1:5000
 - Database storage
 - Calendar integration
 - More advanced AI recommendations
+
+## Screenshots
+
+### Dashboard
+![Dashboard](screenshots/dashboard.png)
+
+### Add Homework
+![Add Homework](screenshots/add-homework.png)
+
+### Homework Management
+![Homework Management](screenshots/homework-list.png)
