@@ -1,21 +1,39 @@
-# Homework Manager
+# 📚 Homework Manager AI
 
-A Python program that helps students manage homework assignments.
+Homework Manager AI is a Flask-based web application designed to help students organize and manage their assignments. Users can add, search, filter, complete, and delete homework while tracking progress through a dashboard. The app includes AI-powered features that suggest homework priority levels with explanations and generate personalized study plans based on assignments and deadlines. Built using Python, Flask, HTML, CSS, JavaScript, and JSON storage, this project demonstrates full-stack development, data management, and AI integration.
 
 ## Features
-- Add homework assignments
-- View assignments
-- Mark assignments as completed
-- Save data using JSON
+
+- Add and manage homework assignments
+- Track completed and incomplete tasks
+- Search and filter homework
+- Priority sorting and overdue detection
+- Dashboard statistics
+- AI priority recommendations
+- AI explanations for priority choices
+- AI-generated study plans
+
+## Technologies
+
+Python • Flask • HTML • CSS • JavaScript • JSON
 
 ## How to Run
 
-1. Download the project
-2. Run:
+Install Flask:
 
-python Homework_manager.py
+pip install flask
+
+Run the application:
+
+python app.py
+
+Then open:
+
+http://127.0.0.1:5000
 
 ## Future Improvements
-- Add a graphical user interface
-- Add reminders
-- Add priority levels
+
+- User accounts
+- Database storage
+- Calendar integration
+- More advanced AI recommendations

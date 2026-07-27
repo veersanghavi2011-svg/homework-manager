@@ -1,8 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for
 from Homework_manager import load_homework, homework_list, save_homework
 from datetime import datetime
+from ai_assistant import suggest_priority, create_study_plan
 
 app = Flask(__name__)
+
+ai_data = {
+    "reason": "",
+    "study_plan": []
+}
 
 
 @app.route("/")
@@ -32,6 +38,7 @@ def home():
         high_priority_count=high_priority_count,
         recent_homework=recent_homework
     )
+
 
 @app.route("/homework")
 def homework_page():
@@ -64,6 +71,7 @@ def homework_page():
         else:
             filtered_homework.append(task)
 
+
     filtered_homework.sort(
         key=lambda task: (
             priority_order.get(task.get("priority"), 3),
@@ -71,15 +79,18 @@ def homework_page():
         )
     )
 
+
     today = datetime.now()
 
     for task in filtered_homework:
-        due = datetime.strptime(task.get("due_date"), "%m-%d-%Y")
+        due = datetime.strptime(
+            task.get("due_date"),
+            "%m-%d-%Y"
+        )
 
-        if due < today and not task.get("completed", False):
-            task["overdue"] = True
-        else:
-            task["overdue"] = False
+        task["overdue"] = (
+            due < today and not task.get("completed", False)
+        )
 
 
     return render_template(
@@ -91,34 +102,51 @@ def homework_page():
 
 @app.route("/add", methods=["GET", "POST"])
 def add_page():
+
     if request.method == "POST":
+
         name = request.form["name"]
         description = request.form["description"]
         due_date = request.form["due_date"]
         priority = request.form["priority"]
+
 
         due_date = datetime.strptime(
             due_date,
             "%Y-%m-%d"
         ).strftime("%m-%d-%Y")
 
+
         homework_list.append({
+
             "name": name,
             "description": description,
             "due_date": due_date,
             "priority": priority,
-            "completed": False
+            "completed": False,
+            "ai_reason": ai_data["reason"],
+            "study_plan": ai_data["study_plan"]
+
         })
+
 
         save_homework()
 
+
+        ai_data["reason"] = ""
+        ai_data["study_plan"] = []
+
+
         return redirect(url_for("home"))
+
 
     return render_template("add.html")
 
 
+
 @app.route("/complete/<name>")
 def complete_homework(name):
+
     load_homework()
 
     for task in homework_list:
@@ -131,8 +159,10 @@ def complete_homework(name):
     return redirect(url_for("homework_page"))
 
 
+
 @app.route("/delete/<name>")
 def delete_homework(name):
+
     load_homework()
 
     global homework_list
@@ -146,8 +176,11 @@ def delete_homework(name):
 
     return redirect(url_for("homework_page"))
 
+
+
 @app.route("/search")
 def search_page():
+
     load_homework()
 
     keyword = request.args.get("q", "").lower()
@@ -155,17 +188,76 @@ def search_page():
     results = []
 
     for task in homework_list:
+
         if (
             keyword in task["name"].lower()
             or keyword in task["description"].lower()
         ):
             results.append(task)
 
+
     return render_template(
         "search.html",
         homework=results,
         keyword=keyword
     )
+
+
+
+@app.route("/suggest_priority", methods=["POST"])
+def suggest_priority_page():
+
+    description = request.form["description"]
+    due_date = request.form["due_date"]
+
+
+    formatted_date = datetime.strptime(
+        due_date,
+        "%Y-%m-%d"
+    ).strftime("%m-%d-%Y")
+
+
+    result = suggest_priority(
+        description,
+        formatted_date
+    )
+
+
+    ai_data["reason"] = result["reason"]
+
+
+    return {
+        "priority": result["priority"],
+        "reason": result["reason"]
+    }
+
+
+
+@app.route("/study_plan", methods=["POST"])
+def study_plan():
+
+    description = request.form["description"]
+    due_date = request.form["due_date"]
+
+
+    formatted_date = datetime.strptime(
+        due_date,
+        "%Y-%m-%d"
+    ).strftime("%m-%d-%Y")
+
+
+    plan = create_study_plan(
+        description,
+        formatted_date
+    )
+
+
+    ai_data["study_plan"] = plan
+
+
+    return {
+        "plan": plan
+    }
 
 
 

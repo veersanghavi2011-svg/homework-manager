@@ -4,6 +4,8 @@
         "description": "Cena",
         "due_date": "11-20-2026",
         "priority": "High",
-        "completed": false
+        "completed": false,
+        "ai_reason": "",
+        "study_plan": []
     }
 ]

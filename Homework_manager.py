@@ -146,6 +146,10 @@ def load_homework():
         with open("tasks.json", "r") as file:
             homework_list = json.load(file)
 
+        for task in homework_list:
+            task.setdefault("ai_reason", "")
+            task.setdefault("study_plan", [])
+
     except FileNotFoundError:
         homework_list = []
 

@@ -70,7 +70,7 @@
                 Priority
             </label>
 
-            <select name="priority" required>
+            <select name="priority" id="priority" required>
 
                 <option value="High">
                     High
@@ -87,13 +87,42 @@
             </select>
 
 
-            <br>
+            <button 
+                type="button" 
+                class="secondary"
+                onclick="suggestPriority()"
+            >
+                🤖 Suggest Priority
+            </button>
+
+
+            <button 
+                type="button" 
+                class="secondary"
+                onclick="createStudyPlan()"
+            >
+                📅 Create Study Plan
+            </button>
+            <div id="ai-results" class="card" style="display:none;">
+
+    <h2>🤖 AI Assistant</h2>
+
+    <div id="priority-result"></div>
+
+    <div id="study-result"></div>
+
+    </div>
+
+
+            <br><br>
+
 
             <div class="buttons">
 
                 <button type="submit" class="primary">
                     Add Homework
                 </button>
+
 
                 <a href="{{ url_for('home') }}" class="secondary">
                     Cancel
@@ -107,6 +136,116 @@
     </div>
 
 </div>
+
+
+<script>
+
+function suggestPriority(){
+
+    let description = document.querySelector(
+        'textarea[name="description"]'
+    ).value;
+
+    let dueDate = document.querySelector(
+        'input[name="due_date"]'
+    ).value;
+
+
+    fetch("/suggest_priority", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+
+        body:
+        "description=" + encodeURIComponent(description) +
+        "&due_date=" + encodeURIComponent(dueDate)
+
+    })
+
+    .then(response => response.json())
+
+    .then(result => {
+
+        document.getElementById("priority").value = result.priority;
+
+
+        document.getElementById("ai-results").style.display = "block";
+
+
+        document.getElementById("priority-result").innerHTML = `
+
+            <h3>⭐ Suggested Priority: ${result.priority}</h3>
+
+            <p>
+                💡 Reason: ${result.reason}
+            </p>
+
+        `;
+
+    });
+
+}
+
+
+
+function createStudyPlan(){
+
+    let description = document.querySelector(
+        'textarea[name="description"]'
+    ).value;
+
+
+    let dueDate = document.querySelector(
+        'input[name="due_date"]'
+    ).value;
+
+
+    fetch("/study_plan", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+
+        body:
+        "description=" + encodeURIComponent(description) +
+        "&due_date=" + encodeURIComponent(dueDate)
+
+    })
+
+    .then(response => response.json())
+
+    .then(result => {
+
+
+        document.getElementById("ai-results").style.display = "block";
+
+
+        let plan = "<h3>📅 Study Plan</h3><ul>";
+
+
+        result.plan.forEach(item => {
+
+            plan += "<li>" + item + "</li>";
+
+        });
+
+
+        plan += "</ul>";
+
+
+        document.getElementById("study-result").innerHTML = plan;
+
+
+    });
+
+}
+
+</script>
 
 
 </body>
