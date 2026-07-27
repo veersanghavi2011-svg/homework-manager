@@ -1,22 +1,8 @@
 [
     {
-        "name": "math",
-        "description": "hard",
-        "due_date": "12-10-2026",
-        "priority": "High",
-        "completed": false
-    },
-    {
-        "name": "mattth",
-        "description": "don",
-        "due_date": "13-12-2026",
-        "priority": "High",
-        "completed": false
-    },
-    {
-        "name": "math",
-        "description": "math",
-        "due_date": "24-7-2026",
+        "name": "John",
+        "description": "Cena",
+        "due_date": "11-20-2026",
         "priority": "High",
         "completed": false
     }

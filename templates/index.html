@@ -3,13 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>Homework Manager</title>
+
+
+   
+    </style>
 </head>
+
 <body>
 
-    <h1>📚 Veer's Homework Manager</h1>
+<body>
 
-    <p>Welcome to my Homework Manager website!</p>
+<header>
+    <h2>📚 Homework Manager</h2>
+</header>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>Welcome, Veer!</h1>
+
+        <p>You currently have {{ homework_count }} homework assignments.</p>
+        {% for task in homework %}
+
+<div class="card">
+
+    <h2>{{ task.name }}</h2>
+
+    <p>{{ task.description }}</p>
+
+    <p>Due: {{ task.due_date }}</p>
+
+    <p>Priority: {{ task.priority }}</p>
+
+    <p>
+        Status:
+        {% if task.completed %}
+            Completed ✅
+        {% else %}
+            Not Completed ❌
+        {% endif %}
+    </p>
+
+</div>
+
+{% endfor %}
+
+        <p>
+            Organize assignments, keep track of due dates,
+            and never miss homework again.
+        </p>
+
+        <div class="buttons">
+            <button class="primary">Add Homework</button>
+            <button class="secondary">View Homework</button>
+        </div>
+
+    </div>
+
+</div>
 
 </body>
 </html>

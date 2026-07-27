@@ -152,35 +152,36 @@ def load_homework():
 
 load_homework()
 
-while True:
-    print("===== Homework Manager =====")
-    print("1. Add Homework")
-    print("2. View Homework")
-    print("3. Delete Homework")
-    print("4. Mark Homework as Completed")
-    print("5. Search Homework")
-    print("6. Exit")
+if __name__ == "__main__":
+    while True:
+        print("===== Homework Manager =====")
+        print("1. Add Homework")
+        print("2. View Homework")
+        print("3. Delete Homework")
+        print("4. Mark Homework as Completed")
+        print("5. Search Homework")
+        print("6. Exit")
 
-    choice = input("Choose an option: ")
+        choice = input("Choose an option: ")
 
-    if choice == "1":
-        add_homework()
+        if choice == "1":
+            add_homework()
 
-    elif choice == "2":
-        view_homework()
+        elif choice == "2":
+            view_homework()
 
-    elif choice == "3":
-        delete_homework()
+        elif choice == "3":
+            delete_homework()
 
-    elif choice == "4":
-        complete_homework()
+        elif choice == "4":
+            complete_homework()
 
-    elif choice == "5":
-        search_homework()
+        elif choice == "5":
+            search_homework()
 
-    elif choice == "6":
-        print("Exiting...")
-        break
+        elif choice == "6":
+            print("Exiting...")
+            break
 
-    else:
-        print("Invalid option.")
+        else:
+            print("Invalid option.")
