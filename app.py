@@ -80,17 +80,7 @@ def homework_page():
     )
 
 
-    today = datetime.now()
 
-    for task in filtered_homework:
-        due = datetime.strptime(
-            task.get("due_date"),
-            "%m-%d-%Y"
-        )
-
-        task["overdue"] = (
-            due < today and not task.get("completed", False)
-        )
 
 
     return render_template(

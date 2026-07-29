@@ -97,26 +97,11 @@
 
 
 
-
             {% if task.completed %}
 
                 <p class="status-complete">
                     ✅ Completed
                 </p>
-
-
-            {% elif task.overdue %}
-
-                <p class="status-incomplete">
-                    ⚠️ Overdue
-                </p>
-
-
-                <a 
-                href="{{ url_for('complete_homework', name=task.name) }}" 
-                class="primary">
-                    Mark Complete
-                </a>
 
 
             {% else %}
